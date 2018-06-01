@@ -1,6 +1,10 @@
 class Api::V1::NotesController < ApplicationController
     def show
-        @note = Note.find(params[:id])
+        @note = Note.find(params[:creature_id])
+    end
+
+    def index
+        @notes = Note.find(params[:creature_id])
     end
 
     def create
@@ -13,21 +17,11 @@ class Api::V1::NotesController < ApplicationController
         end
     end
 
-    def update
-        @note = Note.find(params[:id])
-        if @note.save
-            redirect_to creature_path(@note.creature_id)
-        else
-            render 'new'
-        end
-    end
 
     def destroy
         @note = Note.find(params[:id])
-        @id = @note.creature_id
-        
         @note.destroy
-        redirect_to creature_path(@id)
+        render json: @creature
     
     end
 
